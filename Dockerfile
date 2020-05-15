@@ -20,6 +20,7 @@ RUN install2.r --error \
      rasterVis \
      skimr \
      plotrix \
+     slackr \
      magick \
      withr
 RUN Rscript -e "devtools::install_github(\"mschubert/clustermq\", upgrade = \"always\")"     
