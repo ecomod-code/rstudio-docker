@@ -3,6 +3,7 @@ RUN apt-get update \
   && apt-get install -y --no-install-recommends \ 
      htop \
      libzmq3-dev \
+     libgmp3-dev \
      libmagick++-dev
 RUN install2.r --error \
      RInside \
@@ -20,6 +21,8 @@ RUN install2.r --error \
      rasterVis \
      skimr \
      plotrix \
+     betapart \
+     rcdd \
      slackr \
      magick \
      withr
