@@ -27,15 +27,3 @@ RUN install2.r --error \
      magick \
      withr
 RUN Rscript -e "devtools::install_github(\"mschubert/clustermq\", upgrade = \"always\")"     
-
-RUN wget https://www.imagemagick.org/download/ImageMagick.tar.gz \
-&& tar xvzf ImageMagick.tar.gz \
-&& cd ImageMagick-7.0.10-11 \
-&& ./configure \
-&& make \
-&& make install \
-&& ldconfig /usr/local/lib
-
-   
-ENV USER rstudio
-ENV ROOT=TRUE
