@@ -57,8 +57,9 @@ If you use a different tag than `sebastianhanss/rstudio:latest` remember to adju
 	* Change `VIRTUAL_HOST` and `LETSENCRYPT_HOST` to your domain name (e.g. `c10x-xxx.cloud.gwdg.de`)
 	* Change `USER` and  `PASSWORD` to your desired RStudio username and password
 	* Change `LETSENCRYPT_EMAIL` to your preferred email address (it will be associated with the generated certificates)
-	* If you want to mount any directories into your RStudio container you need to change the `VOLUMES TO BE MOUNTED` line in the `rstudio` section.  An example is given in the `docker-compose.yml` file, where the directory `rstudio_home` is mounted to `/home` in the container
-* Run `sudo docker-compose up -d` to start the containers
+	* Mount the home directory of your `USER` in RStudio. The home directory is not created automatically and you won't be able to login without it. 
+	* If you want to mount any directories into your RStudio container you need to change the `VOLUMES TO BE MOUNTED` line.
+	* Run `sudo docker-compose up -d` to start the containers
 
 You should now have a working RStudio server that you can access via a web browser at *`c10x-xxx.cloud.gwdg.de`*.
 

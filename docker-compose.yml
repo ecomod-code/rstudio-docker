@@ -43,7 +43,7 @@ services:
     container_name: rstudio
     volumes:
       - <VOLUMES TO BE MOUNTED>
-      - "$HOME/rstudio_home:/home"
+      - "./rstudio_home:/home/<RSTUDIO USERNAME>"
     expose:
       - "8787"
     environment:
