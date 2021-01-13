@@ -4,6 +4,7 @@ RUN apt-get update \
      htop \
      libzmq3-dev \
      libgmp3-dev \
+     openssh-client \     
      libmagick++-dev
 RUN install2.r --error \
      RInside \
