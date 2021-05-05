@@ -4,7 +4,7 @@ heavily inspired by https://github.com/PawseySC/rstudio-nginx
 
 # Setup
 
-## GWDG Cloud server
+## [GWDG Cloud server](https://info.gwdg.de/dokuwiki/doku.php?id=en:services:server_services:gwdg_cloud_server:manual_v3)
 
 Create a server with the most recent Ubuntu and make sure that the ports 80, 443 and 22 are open. SSH into your server, change the password and update all packages:
 
@@ -13,7 +13,7 @@ sudo apt update && sudo apt -y dist-upgrade # might be blocked due to auto updat
 ```
 
 ## Install docker:
- 
+
 ```
 sudo apt -y install curl gnupg2 apt-transport-https ca-certificates  software-properties-common
 
@@ -24,13 +24,13 @@ sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubun
 sudo apt update
 sudo apt -y install docker-ce
 ```
- 
+
 ## Install docker-compose
 
-Have a look at https://github.com/docker/compose/releases and see which is the most recent release. At the time of this writing, it is version  `1.27.4`
+Have a look at https://github.com/docker/compose/releases and see which is the most recent release. At the time of this writing, it is version  `1.29.1`
 
 ```
-sudo curl -L "https://github.com/docker/compose/releases/download/1.27.4/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+sudo curl -L "https://github.com/docker/compose/releases/download/1.29.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 
 sudo chmod a+x /usr/local/bin/docker-compose
 
@@ -45,6 +45,7 @@ cd rstudio-docker
 ```
 
 # Create a custom Docker image (optional)
+
 Either use my image (default, just skip this paragraph) or create your own local version of it. Adjust the Dockerfile to your needs and run the following command to build the image from that Dockerfile (this will take a while).
 ```
 sudo docker build -t sebastianhanss/rstudio:latest .
@@ -53,13 +54,13 @@ If you use a different tag than `sebastianhanss/rstudio:latest` remember to adju
 
 # Quick Start
 
-* Edit `docker-compose.yml`
-	* Change `VIRTUAL_HOST` and `LETSENCRYPT_HOST` to your domain name (e.g. `c10x-xxx.cloud.gwdg.de`)
-	* Change `USER` and  `PASSWORD` to your desired RStudio username and password
-	* Change `LETSENCRYPT_EMAIL` to your preferred email address (it will be associated with the generated certificates)
-	* Mount the home directory of your `USER` in RStudio. The home directory is not created automatically and you won't be able to login without it. 
-	* If you want to mount any directories into your RStudio container you need to change the `VOLUMES TO BE MOUNTED` line.
-	* Run `sudo docker-compose up -d` to start the containers
+* Edit the environment file, e.g. `nano .env`
+	* `Server_URL` is the domain name of your server (e.g. `c10x-xxx.cloud.gwdg.de`)
+	* `RStudio_Username` and  `RStudio_Password` will be the  user name and password for your RStudio Server. Choose a strong password as your server is available from the Internet
+	* your `e_mail_address` will be associated with the generated certificates for the encrypted connection to your server. It does not generate Spam you will just be notified when your certificate is about to expire
+	* `ROOT=false` means that your RStudio user will have no admin rights in the container. This improves security, but you can change it to `yes` if you need admin rights 
+* Save your changes `Ctrl+O` and exit the editor `Strl+X`
+* Run `sudo docker-compose up -d` to start the containers
 
 You should now have a working RStudio server that you can access via a web browser at *`c10x-xxx.cloud.gwdg.de`*.
 
