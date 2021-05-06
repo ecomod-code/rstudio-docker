@@ -40,7 +40,7 @@ docker-compose --version  # just checkin'
 # Clone this repository
 
 ```
-git clone https://github.com/bitbacchus/rstudio-docker.git
+git clone https://github.com/ecomod-code/rstudio-docker.git
 cd rstudio-docker
 ```
 
