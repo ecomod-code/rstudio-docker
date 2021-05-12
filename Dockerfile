@@ -1,4 +1,4 @@
-FROM rocker/geospatial:4.0.0-ubuntu18.04
+FROM rocker/geospatial:latest
 RUN apt-get update \
   && apt-get install -y --no-install-recommends \ 
      htop \
