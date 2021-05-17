@@ -11,7 +11,7 @@ RUN install2.r --error \
      Rcpp \
      landscapemetrics \
      landscapetools\
-     NLMR \
+  #   NLMR \
      bench \
      nlrx \
      furrr \
