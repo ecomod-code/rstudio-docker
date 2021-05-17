@@ -28,3 +28,5 @@ RUN install2.r --error \
      magick \
      withr
 RUN Rscript -e "devtools::install_github(\"mschubert/clustermq\", upgrade = \"always\")"     
+RUN echo "session-timeout-minutes=0" >> /etc/rstudio/rsession.conf
+RUN sudo rstudio-server restart
