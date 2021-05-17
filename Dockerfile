@@ -25,6 +25,7 @@ RUN install2.r --error \
      betapart \
      rcdd \
      slackr \
+     targets \
      magick \
      withr
 RUN Rscript -e "devtools::install_github(\"mschubert/clustermq\", upgrade = \"always\")"     
