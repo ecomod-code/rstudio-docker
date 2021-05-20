@@ -27,7 +27,8 @@ RUN install2.r --error \
      slackr \
      targets \
      magick \
+     clustermq \
      withr
-RUN Rscript -e "devtools::install_github(\"mschubert/clustermq\", upgrade = \"always\")"     
+# RUN Rscript -e "devtools::install_github(\"mschubert/clustermq\", upgrade = \"always\")"     
 RUN echo "session-timeout-minutes=0" >> /etc/rstudio/rsession.conf
 RUN sudo rstudio-server restart
