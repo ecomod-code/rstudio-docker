@@ -25,6 +25,24 @@ sudo apt update
 sudo apt -y install docker-ce
 ```
 
+### Configure MTU
+
+If Docker runs on a virtual machine and your container encounters network issues you might need to configure Docker's [MTU](https://en.wikipedia.org/wiki/Maximum_transmission_unit). On a GWDG Cloud server you need to create `/etc/docker/daemon.json`:
+
+```
+sudo nano /etc/docker/daemon.json
+```
+with the contents
+```
+{
+  "mtu": 1450
+}
+```
+Then, `systemctl restart docker` and rebuild your container(s) if you had some, already.
+
+Note: if you configure custom network bridges and use `docker-compose`, you'll need to configure MTU [in your docker-compose file](https://mlohr.com/docker-mtu/) 
+
+
 ## Install docker-compose
 
 Have a look at https://github.com/docker/compose/releases and see which is the most recent release. At the time of this writing, it is version  `1.29.1`
