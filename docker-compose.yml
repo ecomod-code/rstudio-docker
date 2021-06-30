@@ -54,3 +54,9 @@ services:
       - PASSWORD=${RStudio_Password}
       - LETSENCRYPT_HOST=${Server_URL}
       - LETSENCRYPT_EMAIL=${e_mail_address}
+      
+networks:                                
+  default:                               
+    driver: bridge                       
+    driver_opts:                         
+      com.docker.network.driver.mtu: 1450
