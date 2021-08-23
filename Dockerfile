@@ -21,6 +21,7 @@ RUN install2.r --error \
      devtools \
      rasterVis \
      skimr \
+     ssh \
      plotrix \
      betapart \
      rcdd \
