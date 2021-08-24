@@ -4,6 +4,7 @@ RUN apt-get update \
      htop \
      libzmq3-dev \
      libgmp3-dev \
+     libssh-dev \
      openssh-client \     
      libmagick++-dev
 RUN install2.r --error \
@@ -13,7 +14,7 @@ RUN install2.r --error \
      landscapetools\
   #   NLMR \
      bench \
-     nlrx \
+  #   nlrx \
      furrr \
      future \
      future.apply \
@@ -25,11 +26,16 @@ RUN install2.r --error \
      plotrix \
      betapart \
      rcdd \
+     remotes \
      slackr \
      targets \
      magick \
      clustermq \
+     ssh \
      withr
-# RUN Rscript -e "devtools::install_github(\"mschubert/clustermq\", upgrade = \"always\")"     
+RUN Rscript -e "remotes::install_github(\"ropensci/nlrx\")"
+RUN Rscript -e "remotes::install_github(\"ropensci/nlmr\")"
 RUN echo "session-timeout-minutes=0" >> /etc/rstudio/rsession.conf
 RUN sudo rstudio-server restart
+
+RUN export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
