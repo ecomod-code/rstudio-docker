@@ -39,7 +39,7 @@ services:
 
   rstudio:
     restart: unless-stopped
-    image: sebastianhanss/rstudio:latest
+    image: ecomod/rstudio:latest
     container_name: rstudio
     volumes:
       - "./rstudio_home:/home/${RStudio_Username}"
