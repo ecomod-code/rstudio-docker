@@ -2,6 +2,7 @@ FROM rocker/geospatial:latest
 RUN apt-get update \
   && apt-get install -y --no-install-recommends \ 
      htop \
+     gnupg2 \
      libzmq3-dev \
      libgmp3-dev \
      libssh-dev \
@@ -12,9 +13,9 @@ RUN install2.r --error \
      Rcpp \
      landscapemetrics \
      landscapetools\
-  #   NLMR \
+     NLMR \
      bench \
-  #   nlrx \
+     nlrx \
      furrr \
      future \
      future.apply \
@@ -24,6 +25,7 @@ RUN install2.r --error \
      skimr \
      ssh \
      plotrix \
+     vegan \
      betapart \
      rcdd \
      remotes \
@@ -33,8 +35,6 @@ RUN install2.r --error \
      clustermq \
      ssh \
      withr
-RUN Rscript -e "remotes::install_github(\"ropensci/nlrx\")"
-RUN Rscript -e "remotes::install_github(\"ropensci/nlmr\")"
 RUN echo "session-timeout-minutes=0" >> /etc/rstudio/rsession.conf
 RUN sudo rstudio-server restart
 

@@ -40,6 +40,7 @@ with the contents
 ```
 Then, `systemctl restart docker` and rebuild your container(s) if you had some, already.
 
+
 Note: if you configure custom network bridges and use `docker-compose`, you'll need to configure MTU [in your docker-compose file](https://mlohr.com/docker-mtu/) 
 
 
@@ -72,11 +73,12 @@ If you use a different tag than `sebastianhanss/rstudio:latest` remember to adju
 
 # Quick Start
 
+* create a `.env` file from the template `cp .env.template .env`
 * Edit the environment file, e.g. `nano .env`
 	* `Server_URL` is the domain name of your server (e.g. `c10x-xxx.cloud.gwdg.de`)
 	* `RStudio_Username` and  `RStudio_Password` will be the  user name and password for your RStudio Server. Choose a strong password as your server is available from the Internet
 	* your `e_mail_address` will be associated with the generated certificates for the encrypted connection to your server. It does not generate Spam you will just be notified when your certificate is about to expire
-	* `ROOT=false` means that your RStudio user will have no admin rights in the container. This improves security, but you can change it to `yes` if you need admin rights 
+	* `ROOT=false` means that your RStudio user will have no admin rights in the container. This improves security, but you can change it to `yes` if you need admin rights
 * Save your changes `Ctrl+O` and exit the editor `Strl+X`
 * Run `sudo docker-compose up -d` to start the containers
 
