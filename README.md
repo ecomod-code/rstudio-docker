@@ -40,7 +40,8 @@ with the contents
 ```
 Then, `systemctl restart docker` and rebuild your container(s) if you had some, already.
 
-Note: if you configure custom network bridges and use `docker-compose`, you'll need to configure MTU [in your docker-compose file](https://mlohr.com/docker-mtu/)
+
+Note: if you configure custom network bridges and use `docker-compose`, you'll need to configure MTU [in your docker-compose file](https://mlohr.com/docker-mtu/) 
 
 
 ## Install docker-compose
