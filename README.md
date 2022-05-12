@@ -46,10 +46,10 @@ Note: if you configure custom network bridges and use `docker-compose`, you'll n
 
 ## Install docker-compose
 
-Have a look at https://github.com/docker/compose/releases and see which is the most recent release. At the time of this writing, it is version  `1.29.1`
+Have a look at https://github.com/docker/compose/releases and see which is the most recent release. At the time of this writing, it is version  `v2.5.0`
 
 ```
-sudo curl -L "https://github.com/docker/compose/releases/download/1.29.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+sudo curl -L "https://github.com/docker/compose/releases/download/v2.5.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 
 sudo chmod a+x /usr/local/bin/docker-compose
 
@@ -67,9 +67,9 @@ cd rstudio-docker
 
 Either use my image (default, just skip this paragraph) or create your own local version of it. Adjust the Dockerfile to your needs and run the following command to build the image from that Dockerfile (this will take a while).
 ```
-sudo docker build -t sebastianhanss/rstudio:latest .
+sudo docker build -t ecomod/rstudio:latest .
 ```
-If you use a different tag than `sebastianhanss/rstudio:latest` remember to adjust your `docker-compose.yml` accordingly.
+If you use a different tag than `ecomod/rstudio:latest` remember to adjust your `docker-compose.yml` accordingly.
 
 # Quick Start
 

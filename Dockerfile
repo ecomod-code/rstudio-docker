@@ -1,41 +1,62 @@
 FROM rocker/geospatial:latest
-RUN apt-get update \
-  && apt-get install -y --no-install-recommends \ 
+
+# Add Ubuntugis repo for GDAL 3.3.2
+RUN apt-get update && apt-get install -y software-properties-common && \
+      apt-add-repository -y ppa:ubuntugis/ubuntugis-unstable
+
+RUN apt-get update && apt-get dist-upgrade -y 
+RUN apt-get install -y --no-install-recommends \ 
      htop \
      gnupg2 \
      libzmq3-dev \
      libgmp3-dev \
      libssh-dev \
-     openssh-client \     
+     openssh-client \  
+     python3-dev \
+     python3-pip \   
      libmagick++-dev
 RUN install2.r --error \
-     RInside \
-     Rcpp \
-     landscapemetrics \
-     landscapetools\
-     NLMR \
      bench \
-     nlrx \
+     betapart \
+     clustermq \
+     devtools \
      furrr \
      future \
      future.apply \
      future.batchtools \
-     devtools \
+     landscapemetrics \
+     landscapetools\
+     magick \
+     microbenchmark \
+     # NLMR \
+     nlrx \
+     plotrix \
      rasterVis \
+     rcdd \
+     Rcpp \
+     remotes \
+     RInside \
+     rslurm \
      skimr \
      ssh \
-     plotrix \
-     vegan \
-     betapart \
-     rcdd \
-     remotes \
-     slackr \
-     targets \
-     magick \
-     clustermq \
      ssh \
-     withr
-RUN echo "session-timeout-minutes=0" >> /etc/rstudio/rsession.conf
-RUN sudo rstudio-server restart
+     targets \
+     tidyverse \
+     usethis \
+     vegan \
+     withr 
+
+   
+RUN Rscript -e "devtools::install_github(\"EFForTS-B10/Refforts\", upgrade = \"always\")" 
+RUN Rscript -e "devtools::install_github(\"ropensci/NLMR\", upgrade = \"always\")" 
+
+RUN pip3 install --upgrade pip
+
+# Install InVEST
+RUN pip install natcap.invest
 
 RUN export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+RUN echo "session-timeout-minutes=0" >> /etc/rstudio/rsession.conf
+
+
+
