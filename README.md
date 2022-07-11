@@ -65,7 +65,7 @@ cd rstudio-docker
 
 # Create a custom Docker image (optional)
 
-Either use my image (default, just skip this paragraph) or create your own local version of it. Adjust the Dockerfile to your needs and run the following command to build the image from that Dockerfile (this will take a while).
+Either use my image (default, just skip this paragraph) or create your own local version of it. Adjust the Dockerfile to your needs and run the following command to build the image from that Dockerfile (this will take a while). You'll need to have your mtu set properly (see above).
 ```
 sudo docker build -t ecomod/rstudio:latest .
 ```
