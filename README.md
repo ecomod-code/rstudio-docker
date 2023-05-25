@@ -1,6 +1,7 @@
 # rstudio-docker
 
 heavily inspired by https://github.com/PawseySC/rstudio-nginx
+Our docker hub repo: https://hub.docker.com/r/ecomod/rstudio/tags
 
 # Setup
 
