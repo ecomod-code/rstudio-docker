@@ -1,11 +1,10 @@
-FROM rocker/geospatial:4.3.0
+FROM rocker/geospatial:4.3.1-ubuntugis
 
 # Add Ubuntugis repo for GDAL 3.3.2
-RUN apt-get update && apt-get install -y software-properties-common && \
-      apt-add-repository -y ppa:ubuntugis/ubuntugis-unstable
-
-RUN apt-get update && apt-get dist-upgrade -y 
+RUN apt-get update && apt-get install -y software-properties-common && apt-get dist-upgrade -y 
 RUN apt-get install -y --no-install-recommends \ 
+     jags \
+     gsl-bin libgsl-dev \
      htop \
      gnupg2 \
      libzmq3-dev \
@@ -18,6 +17,7 @@ RUN apt-get install -y --no-install-recommends \
 RUN install2.r --error \
      bench \
      betapart \
+     rjags \
      clustermq \
      devtools \
      furrr \
@@ -56,7 +56,8 @@ RUN Rscript -e "devtools::install_github(\"ropensci/NLMR\", upgrade = \"always\"
 RUN pip3 install --upgrade pip
 
 # Install InVEST
-RUN pip install natcap.invest==3.11.0
+# RUN pip install natcap.invest==3.11.0
+
 
 RUN export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
 RUN echo "session-timeout-minutes=0" >> /etc/rstudio/rsession.conf
