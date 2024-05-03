@@ -1,6 +1,5 @@
-FROM rocker/geospatial:4.3.1-ubuntugis
+FROM rocker/geospatial:4.4.0
 
-# Add Ubuntugis repo for GDAL 3.3.2
 RUN apt-get update && apt-get install -y software-properties-common && apt-get dist-upgrade -y 
 RUN apt-get install -y --no-install-recommends \ 
      jags \
@@ -51,7 +50,7 @@ RUN Rscript -e "devtools::install_github(\"EFForTS-B10/Refforts\", upgrade = \"a
 # terra needs a rebuild with a new GDAL
 RUN Rscript -e "devtools::install_github(\"rspatial/terra\", upgrade = \"always\")"
 RUN Rscript -e "devtools::install_github(\"cran/RandomFields\", upgrade = \"always\")"
-RUN Rscript -e "devtools::install_github(\"ropensci/NLMR\", upgrade = \"always\")" 
+# RUN Rscript -e "devtools::install_github(\"ropensci/NLMR\", upgrade = \"always\")" 
 
 RUN pip3 install --upgrade pip
 
