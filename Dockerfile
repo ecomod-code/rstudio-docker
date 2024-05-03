@@ -50,7 +50,7 @@ RUN Rscript -e "devtools::install_github(\"EFForTS-B10/Refforts\", upgrade = \"a
 # terra needs a rebuild with a new GDAL
 RUN Rscript -e "devtools::install_github(\"rspatial/terra\", upgrade = \"always\")"
 RUN Rscript -e "devtools::install_github(\"cran/RandomFields\", upgrade = \"always\")"
-# RUN Rscript -e "devtools::install_github(\"ropensci/NLMR\", upgrade = \"always\")" 
+RUN Rscript -e "devtools::install_github(\"ropensci/NLMR\", upgrade = \"always\")" 
 
 RUN pip3 install --upgrade pip
 
