@@ -48,10 +48,10 @@ Note: if you configure custom network bridges and use `docker-compose`, you'll n
 
 ## Install docker-compose
 
-Have a look at https://github.com/docker/compose/releases and see which is the most recent release. At the time of this writing, it is version  `v2.18.1`
+Have a look at https://github.com/docker/compose/releases and see which is the most recent release. At the time of this writing, it is version  `v2.30.2`
 
 ```
-sudo curl -L "https://github.com/docker/compose/releases/download/v2.18.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+sudo curl -L "https://github.com/docker/compose/releases/download/v2.30.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 
 sudo chmod a+x /usr/local/bin/docker-compose
 
