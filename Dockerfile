@@ -27,7 +27,7 @@ RUN install2.r --error \
      future.apply \
      future.batchtools \
      landscapemetrics \
-     landscapetools\
+   #  landscapetools\
      magick \
      microbenchmark \
      # NLMR \
@@ -40,7 +40,6 @@ RUN install2.r --error \
      RInside \
      rslurm \
      skimr \
-     ssh \
      ssh \
      targets \
      tidyverse \
