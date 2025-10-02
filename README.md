@@ -1,3 +1,7 @@
+  <!-- badges: start -->
+  [![Launch Rstudio Binder](http://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/ecomod-code/rstudio-docker/main?urlpath=rstudio)
+  <!-- badges: end -->
+
 # rstudio-docker
 
 heavily inspired by https://github.com/PawseySC/rstudio-nginx
