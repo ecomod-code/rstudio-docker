@@ -52,7 +52,7 @@ RUN install2.r --error \
 # ----- GitHub installs -----  
 RUN Rscript -e 'remotes::install_github("EFForTS-B10/Refforts@dev2.0", upgrade = "never")' && \
     Rscript -e 'remotes::install_github("ropensci/NLMR", upgrade = "never")' && \
-    Rscript -e 'remotes::install_github("ropensci/landscapetools", upgrade = "never")' && \
+    Rscript -e 'remotes::install_github("ropensci/landscapetools", upgrade = "never")'
 
 # ----- Persist JAVA_HOME and add to PATH -----
 ENV JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64
