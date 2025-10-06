@@ -16,6 +16,7 @@ RUN apt-get update && \
       openssh-client \
       python3-dev \
       python3-pip \
+      rsync \
       libmagick++-dev libmagickwand-dev libmagickcore-dev \
       curl git ca-certificates && \
     rm -rf /var/lib/apt/lists/*
@@ -77,7 +78,7 @@ RUN micromamba create -y \
       natcap.invest==3.11.0 \
       "numpy>=1.20,<1.24" \
       "gdal>=3.2,<3.6" \
-      pip && \
+      "setuptools<81" pip && \
     micromamba clean -a -y
 
 # 3) headless proof
@@ -117,6 +118,9 @@ RUN git clone --depth 1 https://github.com/EFForTS-B10/NetVest.git "${NETVEST_HO
  && find "${NETVEST_HOME}" -type d -exec chmod a+rx {} \; \
  && find "${NETVEST_HOME}" -type f -exec chmod a+r {} \;
 
+ # Install the helper
+COPY scripts/netvest-init /usr/local/bin/netvest-init
+RUN chmod +x /usr/local/bin/netvest-init
 # To make a writable copy of NetVest, e.g. for development:    
 ## mkdir -p "$HOME/NetVest"
 ## cp -rL /opt/NetVest/. "$HOME/NetVest/"
