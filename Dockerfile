@@ -11,6 +11,7 @@ RUN apt-get update && \
       libzmq3-dev \
       libgmp-dev \
       libssh-dev \
+      openjdk-11-jre \
       openjdk-21-jre \
       openssh-client \
       python3-dev \
@@ -50,7 +51,7 @@ RUN install2.r --error \
      withr
 
 # ----- GitHub installs -----  
-RUN Rscript -e 'remotes::install_github("EFForTS-B10/Refforts@dev2.0", upgrade = "never")' && \
+RUN Rscript -e 'remotes::install_github("EFForTS-B10/Refforts@dev_NL-InVEST", upgrade = "never")' && \
     Rscript -e 'remotes::install_github("ropensci/NLMR", upgrade = "never")' && \
     Rscript -e 'remotes::install_github("ropensci/landscapetools", upgrade = "never")'
 
