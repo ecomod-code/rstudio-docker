@@ -1,32 +1,31 @@
-FROM rocker/geospatial:4.5
+FROM rocker/geospatial:4.5.1
 
 # ----- system deps -----
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
       software-properties-common \
       jags \
-      gsl-bin libgsl-dev \
+      gsl-bin \
       htop \
       gnupg2 \
-      libzmq3-dev \
-      libgmp-dev \
-      libssh-dev \
+      libssl-dev \
+      libcurl4-gnutls-dev \
       openjdk-11-jre \
-      openjdk-21-jre \
-      openssh-client \
-      python3-dev \
-      python3-pip \
-      libmagick++-dev libmagickwand-dev libmagickcore-dev \
-      curl git ca-certificates && \
+      openjdk-21-jre && \
     rm -rf /var/lib/apt/lists/*
 
+# ----- Default user -----
+RUN /rocker_scripts/default_user.sh
+#copilot 
+RUN echo "copilot-enabled=1" | tee -a /etc/rstudio/rsession.conf > /dev/null
+
 # ----- R packages -----
+
 RUN install2.r --error \
      bench \
      betapart \
      rjags \
      clustermq \
-     devtools \
      furrr \
      future \
      future.apply \
@@ -38,17 +37,12 @@ RUN install2.r --error \
      plotrix \
      rasterVis \
      rcdd \
-     Rcpp \
-     remotes \
      RInside \
      rslurm \
      skimr \
      ssh \
      targets \
-     tidyverse \
-     usethis \
-     vegan \
-     withr
+     vegan 
 
 # ----- GitHub installs -----  
 RUN Rscript -e 'remotes::install_github("EFForTS-B10/Refforts@dev_NL-InVEST", upgrade = "never")' && \
