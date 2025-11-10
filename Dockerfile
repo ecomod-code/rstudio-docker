@@ -3,6 +3,7 @@ FROM rocker/geospatial:4.5
 # ----- system deps -----
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
+      wget gnupg ca-certificates \
       software-properties-common \
       jags \
       gsl-bin libgsl-dev \
@@ -18,7 +19,10 @@ RUN apt-get update && \
       python3-pip \
       rsync \
       libmagick++-dev libmagickwand-dev libmagickcore-dev \
-      curl git ca-certificates && \
+      curl git && \
+    wget -qO- https://packages.adoptium.net/artifactory/api/gpg/key/public | apt-key add - && \
+    add-apt-repository "deb https://packages.adoptium.net/artifactory/deb $(. /etc/os-release; echo $UBUNTU_CODENAME) main" && \
+    apt-get update && apt-get install -y temurin-8-jre && \
     rm -rf /var/lib/apt/lists/*
 
 # ----- R packages -----
@@ -58,6 +62,7 @@ RUN Rscript -e 'remotes::install_github("EFForTS-B10/Refforts@dev_NL-InVEST", up
 
 # ----- Persist JAVA_HOME and add to PATH -----
 ENV JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64
+ENV JAVA8_HOME=/usr/lib/jvm/temurin-8-jre-amd64
 ENV PATH="${JAVA_HOME}/bin:${PATH}"
 
 # ---------- InVEST 3.11.0 via micromamba (Python 3.9) ----------
