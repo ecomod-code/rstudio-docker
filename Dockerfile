@@ -1,4 +1,6 @@
-FROM rocker/geospatial:4.5
+# Pinned deliberately: the floating :4.6 tag moves R and the whole system
+# library set underneath you. Revert to :4.6 if you want automatic patch bumps.
+FROM rocker/geospatial:4.6.1
 
 # ----- system deps -----
 RUN apt-get update && \
@@ -6,6 +8,8 @@ RUN apt-get update && \
       software-properties-common \
       jags \
       gsl-bin libgsl-dev \
+      libglpk40 \
+      cmake \
       htop \
       gnupg2 \
       libzmq3-dev \
@@ -30,6 +34,7 @@ RUN install2.r --error \
      future \
      future.apply \
      future.batchtools \
+     igraph \
      landscapemetrics \
      magick \
      microbenchmark \
@@ -59,9 +64,14 @@ ENV JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64
 ENV PATH="${JAVA_HOME}/bin:${PATH}"
 
 # ---------- InVEST 3.11.0 via micromamba (Python 3.9) ----------
+# 3.11.0 is pinned on purpose for NetVest compatibility. Current upstream is
+# 3.20.x - do not bump without checking NetVest first.
 ARG MAMBA_ROOT=/opt/conda
 ENV MAMBA_ROOT_PREFIX=${MAMBA_ROOT}
-ENV PATH=${MAMBA_ROOT}/envs/invest/bin:$PATH
+# Appended, not prepended: putting the conda env first shadows the system
+# python3 for every process in the image, which igraph's own troubleshooting
+# docs explicitly warn against.
+ENV PATH=$PATH:${MAMBA_ROOT}/envs/invest/bin
 
 # 1) micromamba
 RUN curl -Ls https://micro.mamba.pm/api/micromamba/linux-64/latest \
@@ -80,8 +90,8 @@ RUN micromamba create -y \
     micromamba clean -a -y
 
 # 3) headless proof
-RUN python -c "import natcap.invest as i; print(i.__version__)" && \
-    python -V && \
+RUN ${MAMBA_ROOT}/envs/invest/bin/python -c "import natcap.invest as i; print(i.__version__)" && \
+    ${MAMBA_ROOT}/envs/invest/bin/python -V && \
     gdalinfo --version
 # ---------- end InVEST ----------
 
@@ -89,7 +99,7 @@ RUN python -c "import natcap.invest as i; print(i.__version__)" && \
 ARG NETLOGO_ROOT=/opt/netlogo
 ARG NETLOGO_NetVEST=6.2.1
 ARG NETLOGO_6=6.4.0
-ARG NETLOGO_7=7.0.0
+ARG NETLOGO_7=7.0.4
 
 # Choose 6.2.1 as the default for NetVEST
 ENV NETLOGO_ROOT=${NETLOGO_ROOT} \
@@ -101,7 +111,7 @@ ENV NETLOGO_ROOT=${NETLOGO_ROOT} \
 RUN set -eux; \
     mkdir -p "${NETLOGO_ROOT}"; \
     for v in ${NETLOGO_NetVEST} ${NETLOGO_6} ${NETLOGO_7}; do \
-      url="https://ccl.northwestern.edu/netlogo/${v}/NetLogo-${v}-64.tgz"; \
+      url="https://downloads.netlogo.org/${v}/NetLogo-${v}-64.tgz"; \
       tmp="/tmp/netlogo-${v}.tgz"; \
       dest="${NETLOGO_ROOT}/${v}"; \
       echo "Downloading $url"; \
@@ -125,3 +135,20 @@ RUN git clone --depth 1 https://github.com/EFForTS-B10/NetVest.git "${NETVEST_HO
 
 # RStudio server tweak
 RUN echo "session-timeout-minutes=0" >> /etc/rstudio/rsession.conf
+
+# ---------- smoke test ----------
+# Fails the build rather than shipping an image that breaks at runtime.
+# igraph is the canary: it has one of the largest .rdb files on CRAN, and R
+# 4.5.x built against libdeflate could not decompress it ("internal error 1 in
+# R_decompress1 with libdeflate" - 1782 of 1785 objects failed, for binary and
+# source installs alike). R 4.6.1 fixes this; verified 1785/1785 on stock
+# libdeflate 1.19. The ldd line records which libdeflate is in play, so a
+# regression is visible in the build log.
+RUN set -eux; \
+    ldd /usr/local/lib/R/lib/libR.so | grep -i deflate; \
+    Rscript -e 'pkgs <- c("tidyverse", "igraph", "terra", "sf", "vegan", \
+                          "nlrx", "targets", "landscapemetrics", "rjags"); \
+                for (p in pkgs) library(p, character.only = TRUE); \
+                stopifnot(igraph::gsize(igraph::make_ring(10)) == 10); \
+                cat("smoke test OK\n")'
+# ---------- end smoke test ----------
