@@ -1,6 +1,6 @@
 # Pinned deliberately: the floating :4.6 tag moves R and the whole system
 # library set underneath you. Revert to :4.6 if you want automatic patch bumps.
-FROM rocker/geospatial:4.6.1
+FROM rocker/geospatial:4.6.2
 
 # ----- system deps -----
 RUN apt-get update && \
@@ -95,7 +95,7 @@ RUN ${MAMBA_ROOT}/envs/invest/bin/python -c "import natcap.invest as i; print(i.
     gdalinfo --version
 # ---------- end InVEST ----------
 
-# ---------- NetLogo multi-version (6.2.1, 6.4.0, 7.0.0) + NetVest ----------
+# ---------- NetLogo multi-version (6.2.1, 6.4.0, 7.0.4) + NetVest ----------
 ARG NETLOGO_ROOT=/opt/netlogo
 ARG NETLOGO_NetVEST=6.2.1
 ARG NETLOGO_6=6.4.0
