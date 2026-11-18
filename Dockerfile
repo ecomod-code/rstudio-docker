@@ -73,9 +73,15 @@ ENV MAMBA_ROOT_PREFIX=${MAMBA_ROOT}
 # docs explicitly warn against.
 ENV PATH=$PATH:${MAMBA_ROOT}/envs/invest/bin
 
-# 1) micromamba
-RUN curl -Ls https://micro.mamba.pm/api/micromamba/linux-64/latest \
-      | tar -xvj -C /usr/local/bin/ bin/micromamba --strip-components=1
+# 1) micromamba (static binary from GitHub releases; pinned so a rebuild
+#    doesn't silently pick up a new major, and -f/--retry so a flaky
+#    download fails loudly instead of feeding an error page to the next step)
+ARG MICROMAMBA_VERSION=2.10.0-0
+RUN curl -fsSL --retry 5 --retry-delay 5 \
+      "https://github.com/mamba-org/micromamba-releases/releases/download/${MICROMAMBA_VERSION}/micromamba-linux-64" \
+      -o /usr/local/bin/micromamba && \
+    chmod +x /usr/local/bin/micromamba && \
+    micromamba --version
 
 # 2) env with compatible pins
 RUN micromamba create -y \
