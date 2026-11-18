@@ -1,6 +1,6 @@
 # Pinned deliberately: the floating :4.6 tag moves R and the whole system
 # library set underneath you. Revert to :4.6 if you want automatic patch bumps.
-FROM rocker/geospatial:4.6.1
+FROM rocker/geospatial:4.6.2
 
 # ----- system deps -----
 RUN apt-get update && \
@@ -73,9 +73,15 @@ ENV MAMBA_ROOT_PREFIX=${MAMBA_ROOT}
 # docs explicitly warn against.
 ENV PATH=$PATH:${MAMBA_ROOT}/envs/invest/bin
 
-# 1) micromamba
-RUN curl -Ls https://micro.mamba.pm/api/micromamba/linux-64/latest \
-      | tar -xvj -C /usr/local/bin/ bin/micromamba --strip-components=1
+# 1) micromamba (static binary from GitHub releases; pinned so a rebuild
+#    doesn't silently pick up a new major, and -f/--retry so a flaky
+#    download fails loudly instead of feeding an error page to the next step)
+ARG MICROMAMBA_VERSION=2.10.0-0
+RUN curl -fsSL --retry 5 --retry-delay 5 \
+      "https://github.com/mamba-org/micromamba-releases/releases/download/${MICROMAMBA_VERSION}/micromamba-linux-64" \
+      -o /usr/local/bin/micromamba && \
+    chmod +x /usr/local/bin/micromamba && \
+    micromamba --version
 
 # 2) env with compatible pins
 RUN micromamba create -y \
@@ -95,7 +101,7 @@ RUN ${MAMBA_ROOT}/envs/invest/bin/python -c "import natcap.invest as i; print(i.
     gdalinfo --version
 # ---------- end InVEST ----------
 
-# ---------- NetLogo multi-version (6.2.1, 6.4.0, 7.0.0) + NetVest ----------
+# ---------- NetLogo multi-version (6.2.1, 6.4.0, 7.0.4) + NetVest ----------
 ARG NETLOGO_ROOT=/opt/netlogo
 ARG NETLOGO_NetVEST=6.2.1
 ARG NETLOGO_6=6.4.0
